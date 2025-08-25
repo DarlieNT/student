@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import html2canvas from "html2canvas"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -73,17 +72,43 @@ export function StudentIdGenerator() {
   const cardRef = useRef<HTMLDivElement>(null)
 
   const downloadCard = async () => {
-    if (cardRef.current) {
+    if (!cardRef.current) return
+    
+    try {
+      // 确保在客户端执行
+      if (typeof window === 'undefined') {
+        console.error('Download is only available in client-side')
+        return
+      }
+      
+      // 动态导入 html2canvas 以避免 SSR 问题
+      const html2canvas = (await import('html2canvas')).default
+      
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
         logging: false,
+        useCORS: true,
+        allowTaint: false,
+        width: cardRef.current.offsetWidth,
+        height: cardRef.current.offsetHeight,
       })
       
+      // 创建下载链接
+      const dataURL = canvas.toDataURL('image/png')
       const link = document.createElement('a')
       link.download = `学生证_${studentData.studentName || 'Student'}_${cardSide === 'front' ? '正面' : '背面'}.png`
-      link.href = canvas.toDataURL('image/png')
+      link.href = dataURL
+      
+      // 触发下载
+      document.body.appendChild(link)
       link.click()
+      document.body.removeChild(link)
+      
+    } catch (error) {
+      console.error('Download failed:', error)
+      // 可选：显示错误消息给用户
+      alert('下载失败，请重试')
     }
   }
 
@@ -390,7 +415,7 @@ export function StudentIdGenerator() {
                     {/* Content container with proper spacing */}
                     <div className="pt-5 px-4 pb-4 h-full flex flex-col">
                       {/* Header */}
-                      <div className="text-center mb-3">
+                      <div className="text-center mb-5">
                         <h3 className="text-sm font-bold text-gray-800 document-title uppercase tracking-wide">
                           Terms & Conditions
                         </h3>

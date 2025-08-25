@@ -357,39 +357,58 @@ export function StudentIdGenerator() {
 
               <TabsContent value="back">
                 <div className="flex justify-center">
-                  <div className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
-                    <div className="pt-2">
-                      <div className="w-full h-8 bg-black"></div>
-                    </div>
-
-                    <div className="px-4 py-3 h-44 flex flex-col">
-                      <h3 className="text-sm font-bold text-center mb-2 text-gray-800 document-title">TERMS AND CONDITIONS</h3>
-
-                      <div className="text-xs text-gray-700 space-y-1 leading-relaxed flex-1 official-text">
-                        <p>This card is the property of {getUniversityName()} and must be returned upon request.</p>
-                        <p>
-                          Misuse of this card may result in disciplinary action. Report lost or stolen cards
-                          immediately.
-                        </p>
+                  <div className="w-80 h-60 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                    {/* Magnetic strip */}
+                    <div className="absolute top-0 left-0 right-0 h-3 bg-black"></div>
+                    
+                    {/* Content container with proper spacing */}
+                    <div className="pt-6 px-4 pb-4 h-full flex flex-col">
+                      {/* Header */}
+                      <div className="text-center mb-3">
+                        <h3 className="text-sm font-bold text-gray-800 document-title uppercase tracking-wide">
+                          Terms & Conditions
+                        </h3>
+                        <div className="w-16 h-0.5 bg-gray-300 mx-auto mt-1"></div>
                       </div>
 
-                      <div className="mt-3 pt-2 border-t border-gray-200">
-                        <div className="text-xs text-gray-600 mb-1 font-medium certificate-text">STUDENT SIGNATURE</div>
-                        <div className="h-10 border-b-2 border-blue-400 flex items-center justify-center bg-gradient-to-r from-blue-50/30 to-transparent">
+                      {/* Terms content */}
+                      <div className="flex-1 mb-4">
+                        <div className="text-xs text-gray-700 leading-relaxed official-text space-y-2">
+                          <p>This card is the property of {getUniversityName()} and must be returned upon request.</p>
+                          <p>Misuse of this card may result in disciplinary action. Report lost or stolen cards immediately.</p>
+                        </div>
+                      </div>
+
+                      {/* Signature section - now guaranteed to be visible */}
+                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                        <div className="mb-2">
+                          <div className="text-xs text-gray-600 font-medium certificate-text uppercase tracking-wide">
+                            Student Signature
+                          </div>
+                        </div>
+                        
+                        {/* Signature line with more space */}
+                        <div className="bg-white rounded border border-gray-300 p-2 min-h-[48px] flex items-center justify-center">
                           {studentData.studentSignature ? (
-                            <span className="font-signature-handwriting text-xl text-blue-900 transform -rotate-2 tracking-wide signature-handwriting-text">
+                            <span className="font-signature-handwriting text-xl text-blue-900 transform -rotate-1 signature-handwriting-text">
                               {studentData.studentSignature}
                             </span>
                           ) : (
-                            <span className="text-xs text-gray-400 italic modern-academic">Sign here</span>
+                            <span className="text-xs text-gray-400 italic modern-academic">
+                              Please sign here
+                            </span>
                           )}
                         </div>
-                        <div className="flex justify-between items-center mt-2">
-                          <div className="text-xs text-gray-500">
-                            <span className="font-medium certificate-text">DATE:</span> <span className="clean-official">{studentData.issueDate}</span>
+                        
+                        {/* Date information */}
+                        <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-200">
+                          <div className="text-xs">
+                            <span className="text-gray-500 font-medium certificate-text">ISSUED:</span>
+                            <span className="ml-1 text-gray-800 clean-official">{studentData.issueDate}</span>
                           </div>
-                          <div className="text-xs text-gray-500 font-medium">
-                            <span className="certificate-text">EXPIRES:</span> <span className="clean-official">{studentData.expirationDate}</span>
+                          <div className="text-xs text-right">
+                            <span className="text-gray-500 font-medium certificate-text">EXPIRES:</span>
+                            <span className="ml-1 text-gray-800 clean-official">{studentData.expirationDate}</span>
                           </div>
                         </div>
                       </div>

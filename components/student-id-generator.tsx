@@ -357,12 +357,12 @@ export function StudentIdGenerator() {
 
               <TabsContent value="back">
                 <div className="flex justify-center">
-                  <div className="w-80 h-52 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                  <div className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
                     <div className="pt-2">
                       <div className="w-full h-8 bg-black"></div>
                     </div>
 
-                    <div className="px-4 py-3 h-40 flex flex-col">
+                    <div className="px-4 py-3 h-44 flex flex-col">
                       <h3 className="text-sm font-bold text-center mb-2 text-gray-800 document-title">TERMS AND CONDITIONS</h3>
 
                       <div className="text-xs text-gray-700 space-y-1 leading-relaxed flex-1 official-text">
@@ -373,9 +373,9 @@ export function StudentIdGenerator() {
                         </p>
                       </div>
 
-                      <div className="mt-2 pt-1 border-t border-gray-200">
+                      <div className="mt-3 pt-2 border-t border-gray-200">
                         <div className="text-xs text-gray-600 mb-1 font-medium certificate-text">STUDENT SIGNATURE</div>
-                        <div className="h-8 border-b-2 border-blue-400 flex items-center justify-center bg-gradient-to-r from-blue-50/30 to-transparent">
+                        <div className="h-10 border-b-2 border-blue-400 flex items-center justify-center bg-gradient-to-r from-blue-50/30 to-transparent">
                           {studentData.studentSignature ? (
                             <span className="font-signature-handwriting text-xl text-blue-900 transform -rotate-2 tracking-wide signature-handwriting-text">
                               {studentData.studentSignature}

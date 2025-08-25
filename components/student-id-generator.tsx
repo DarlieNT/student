@@ -357,7 +357,7 @@ export function StudentIdGenerator() {
 
               <TabsContent value="back">
                 <div className="flex justify-center">
-                  <div className="w-80 h-60 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                  <div className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
                     {/* Magnetic strip */}
                     <div className="absolute top-0 left-0 right-0 h-3 bg-black"></div>
                     
@@ -372,36 +372,35 @@ export function StudentIdGenerator() {
                       </div>
 
                       {/* Terms content */}
-                      <div className="flex-1 mb-4">
+                      <div className="flex-1 mb-3">
                         <div className="text-xs text-gray-700 leading-relaxed official-text space-y-2">
                           <p>This card is the property of {getUniversityName()} and must be returned upon request.</p>
                           <p>Misuse of this card may result in disciplinary action. Report lost or stolen cards immediately.</p>
                         </div>
                       </div>
 
-                      {/* Signature section - now guaranteed to be visible */}
-                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                        <div className="mb-2">
-                          <div className="text-xs text-gray-600 font-medium certificate-text uppercase tracking-wide">
-                            Student Signature
+                      {/* Signature section with inline layout */}
+                      <div className="border-t border-gray-200 pt-3">
+                        {/* Signature row - label and signature on same line */}
+                        <div className="flex items-center mb-3">
+                          <div className="text-xs text-gray-600 font-medium certificate-text uppercase tracking-wide mr-3 whitespace-nowrap">
+                            Student Signature:
+                          </div>
+                          <div className="flex-1 border-b border-gray-400 h-6 flex items-center">
+                            {studentData.studentSignature ? (
+                              <span className="font-signature-handwriting text-sm text-blue-900 signature-handwriting-text">
+                                {studentData.studentSignature}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-gray-400 italic modern-academic">
+                                Sign here
+                              </span>
+                            )}
                           </div>
                         </div>
                         
-                        {/* Signature line with more space */}
-                        <div className="bg-white rounded border border-gray-300 p-2 min-h-[48px] flex items-center justify-center">
-                          {studentData.studentSignature ? (
-                            <span className="font-signature-handwriting text-xl text-blue-900 transform -rotate-1 signature-handwriting-text">
-                              {studentData.studentSignature}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-gray-400 italic modern-academic">
-                              Please sign here
-                            </span>
-                          )}
-                        </div>
-                        
                         {/* Date information */}
-                        <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-200">
+                        <div className="flex justify-between items-center">
                           <div className="text-xs">
                             <span className="text-gray-500 font-medium certificate-text">ISSUED:</span>
                             <span className="ml-1 text-gray-800 clean-official">{studentData.issueDate}</span>

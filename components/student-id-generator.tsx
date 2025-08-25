@@ -380,12 +380,12 @@ export function StudentIdGenerator() {
 
               <TabsContent value="back">
                 <div className="flex justify-center">
-                  <div ref={cardRef} className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                  <div ref={cardRef} className="w-80 h-52 bg-white rounded-lg shadow-xl border overflow-hidden relative">
                     {/* White space above magnetic strip */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-white"></div>
                     
                     {/* Magnetic strip with white space above */}
-                    <div className="absolute top-1 left-0 right-0 h-3 bg-black"></div>
+                    <div className="absolute top-1 left-0 right-0 h-5 bg-black"></div>
                     
                     {/* Content container with proper spacing */}
                     <div className="pt-5 px-4 pb-4 h-full flex flex-col">
@@ -398,17 +398,17 @@ export function StudentIdGenerator() {
                       </div>
 
                       {/* Terms content */}
-                      <div className="flex-1 mb-3">
-                        <div className="text-xs text-gray-700 leading-relaxed official-text space-y-2">
+                      <div className="flex-1 mb-2">
+                        <div className="text-xs text-gray-700 leading-tight official-text space-y-1">
                           <p>This card is the property of {getUniversityName()} and must be returned upon request.</p>
                           <p>Misuse of this card may result in disciplinary action. Report lost or stolen cards immediately.</p>
                         </div>
                       </div>
 
                       {/* Signature section with inline layout */}
-                      <div className="border-t border-gray-200 pt-3">
+                      <div className="border-t border-gray-200 pt-2">
                         {/* Signature row - label and signature on same line */}
-                        <div className="flex items-center mb-3">
+                        <div className="flex items-center mb-2">
                           <div className="text-xs text-gray-600 font-medium certificate-text uppercase tracking-wide mr-3 whitespace-nowrap">
                             Student Signature:
                           </div>

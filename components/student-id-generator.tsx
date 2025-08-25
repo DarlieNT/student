@@ -381,11 +381,14 @@ export function StudentIdGenerator() {
               <TabsContent value="back">
                 <div className="flex justify-center">
                   <div ref={cardRef} className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
-                    {/* Magnetic strip */}
-                    <div className="absolute top-0 left-0 right-0 h-3 bg-black"></div>
+                    {/* White space above magnetic strip */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-white"></div>
+                    
+                    {/* Magnetic strip with white space above */}
+                    <div className="absolute top-1 left-0 right-0 h-3 bg-black"></div>
                     
                     {/* Content container with proper spacing */}
-                    <div className="pt-3 px-4 pb-4 h-full flex flex-col">
+                    <div className="pt-5 px-4 pb-4 h-full flex flex-col">
                       {/* Header */}
                       <div className="text-center mb-3">
                         <h3 className="text-sm font-bold text-gray-800 document-title uppercase tracking-wide">

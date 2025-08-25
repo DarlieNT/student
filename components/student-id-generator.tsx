@@ -82,7 +82,8 @@ export function StudentIdGenerator() {
       }
       
       // 动态导入 html2canvas 以避免 SSR 问题
-      const html2canvas = (await import('html2canvas')).default
+      const html2canvasModule = await import('html2canvas')
+      const html2canvas = html2canvasModule.default || html2canvasModule
       
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#ffffff',
@@ -92,10 +93,12 @@ export function StudentIdGenerator() {
         allowTaint: false,
         width: cardRef.current.offsetWidth,
         height: cardRef.current.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
       })
       
       // 创建下载链接
-      const dataURL = canvas.toDataURL('image/png')
+      const dataURL = canvas.toDataURL('image/png', 1.0)
       const link = document.createElement('a')
       link.download = `学生证_${studentData.studentName || 'Student'}_${cardSide === 'front' ? '正面' : '背面'}.png`
       link.href = dataURL
@@ -415,7 +418,7 @@ export function StudentIdGenerator() {
                     {/* Content container with proper spacing */}
                     <div className="pt-5 px-4 pb-4 h-full flex flex-col">
                       {/* Header */}
-                      <div className="text-center mb-5">
+                      <div className="text-center mb-3 mt-2">
                         <h3 className="text-sm font-bold text-gray-800 document-title uppercase tracking-wide">
                           Terms & Conditions
                         </h3>

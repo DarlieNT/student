@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install html2canvas)",
+      "Bash(npm install html2canvas --legacy-peer-deps)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

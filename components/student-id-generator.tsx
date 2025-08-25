@@ -2,14 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import html2canvas from "html2canvas"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Upload, RotateCcw, Eye } from "lucide-react"
+import { Upload, RotateCcw, Eye, Download } from "lucide-react"
 
 interface StudentData {
   studentName: string
@@ -67,8 +68,24 @@ export function StudentIdGenerator() {
     studentSignature: "",
   })
 
-  const [showPreview, setShowPreview] = useState(false)
+  const [showPreview, setShowPreview] = useState(true)
   const [cardSide, setCardSide] = useState<"front" | "back">("front")
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const downloadCard = async () => {
+    if (cardRef.current) {
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: false,
+      })
+      
+      const link = document.createElement('a')
+      link.download = `学生证_${studentData.studentName || 'Student'}_${cardSide === 'front' ? '正面' : '背面'}.png`
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    }
+  }
 
   const generateRandomData = () => {
     const names = [
@@ -145,6 +162,12 @@ export function StudentIdGenerator() {
               {showPreview ? "隐藏预览" : "显示预览"}
             </Button>
           </div>
+          {showPreview && (
+            <Button onClick={downloadCard} variant="outline" className="w-full mb-4">
+              <Download className="w-4 h-4 mr-2" />
+              下载PNG图片
+            </Button>
+          )}
 
           <div className="space-y-4">
             <div>
@@ -294,7 +317,7 @@ export function StudentIdGenerator() {
 
               <TabsContent value="front">
                 <div className="flex justify-center">
-                  <div className="w-80 h-52 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                  <div ref={cardRef} className="w-80 h-52 bg-white rounded-lg shadow-xl border overflow-hidden relative">
                     <div className="w-full h-12 bg-red-600 flex items-center justify-center">
                       <div className="text-center">
                         <h2 className="text-white font-bold text-sm leading-tight university-header">
@@ -357,12 +380,12 @@ export function StudentIdGenerator() {
 
               <TabsContent value="back">
                 <div className="flex justify-center">
-                  <div className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
+                  <div ref={cardRef} className="w-80 h-56 bg-white rounded-lg shadow-xl border overflow-hidden relative">
                     {/* Magnetic strip */}
                     <div className="absolute top-0 left-0 right-0 h-3 bg-black"></div>
                     
                     {/* Content container with proper spacing */}
-                    <div className="pt-6 px-4 pb-4 h-full flex flex-col">
+                    <div className="pt-3 px-4 pb-4 h-full flex flex-col">
                       {/* Header */}
                       <div className="text-center mb-3">
                         <h3 className="text-sm font-bold text-gray-800 document-title uppercase tracking-wide">

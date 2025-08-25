@@ -2,7 +2,8 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import html2canvas from "html2canvas"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -64,6 +65,22 @@ export function AdmissionLetterGenerator() {
   const [customMessage, setCustomMessage] = useState(
     "We are delighted to inform you of your acceptance to our university. We look forward to welcoming you to our academic community.",
   )
+  const letterRef = useRef<HTMLDivElement>(null)
+
+  const downloadLetter = async () => {
+    if (letterRef.current) {
+      const canvas = await html2canvas(letterRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: false,
+      })
+      
+      const link = document.createElement('a')
+      link.download = `录取通知书_${formData.studentName || 'Student'}_${formData.university || 'University'}.png`
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    }
+  }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -233,13 +250,13 @@ export function AdmissionLetterGenerator() {
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button className="flex-1">
+            <Button className="flex-1" variant="outline">
               <Eye className="w-4 h-4 mr-2" />
               预览通知书
             </Button>
-            <Button variant="outline" className="flex-1 bg-transparent">
+            <Button variant="outline" className="flex-1 bg-transparent" onClick={downloadLetter}>
               <Download className="w-4 h-4 mr-2" />
-              下载PDF
+              下载PNG
             </Button>
           </div>
         </CardContent>
@@ -253,7 +270,7 @@ export function AdmissionLetterGenerator() {
         </CardHeader>
         <CardContent>
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-primary/20">
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+            <div ref={letterRef} className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
               {/* Official Header */}
               <div className="text-center border-b-2 border-blue-800 pb-6 mb-8">
                 <div className="flex items-center justify-center gap-4 mb-4">

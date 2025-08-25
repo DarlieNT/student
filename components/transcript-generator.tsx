@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import html2canvas from "html2canvas"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -79,6 +80,22 @@ const generateRandomStudentInfo = () => {
 export function TranscriptGenerator() {
   const [studentInfo, setStudentInfo] = useState(generateRandomStudentInfo())
   const [courses, setCourses] = useState<Course[]>(generateRandomTranscript())
+  const transcriptRef = useRef<HTMLDivElement>(null)
+
+  const downloadTranscript = async () => {
+    if (transcriptRef.current) {
+      const canvas = await html2canvas(transcriptRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: false,
+      })
+      
+      const link = document.createElement('a')
+      link.download = `成绩单_${studentInfo.studentName || 'Student'}_${studentInfo.university || 'University'}.png`
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    }
+  }
 
   const handleStudentInfoChange = (field: string, value: string) => {
     setStudentInfo((prev) => ({ ...prev, [field]: value }))
@@ -285,13 +302,13 @@ export function TranscriptGenerator() {
               ))}
             </div>
             <div className="flex gap-2 pt-4">
-              <Button className="flex-1">
+              <Button className="flex-1" variant="outline">
                 <Eye className="w-4 h-4 mr-2" />
                 预览成绩单
               </Button>
-              <Button variant="outline" className="flex-1 bg-transparent">
+              <Button variant="outline" className="flex-1 bg-transparent" onClick={downloadTranscript}>
                 <Download className="w-4 h-4 mr-2" />
-                下载PDF
+                下载PNG
               </Button>
             </div>
           </CardContent>
@@ -305,7 +322,7 @@ export function TranscriptGenerator() {
           <CardDescription>Real-time preview of the generated transcript</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-sm shadow-lg">
+          <div ref={transcriptRef} className="bg-white border-2 border-gray-300 rounded-lg p-8 text-sm shadow-lg">
             {/* Official Header */}
             <div className="text-center border-b-4 border-blue-800 pb-6 mb-6">
               <div className="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center mx-auto mb-4">
